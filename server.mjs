@@ -52,8 +52,11 @@ app.prepare().then(() => {
      */
     const template = getTemplate(templates);
 
-    console.log(`Possible templates for "${pathname}"`, templates);
-    console.log(`Using template "${template}"`);
+    console.log(
+      `Possible templates for "${pathname}": `,
+      templates.map((template) => `pages/${template}.js`)
+    );
+    console.log(`Using template "pages/${template}.js"`);
 
     /**
      * Render the request with the template determined above. Typically, this

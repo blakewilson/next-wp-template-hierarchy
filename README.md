@@ -32,7 +32,5 @@ This example project works by first disabling the native file based routing in N
 
 ## Caveats
 
-There are two caveats to this approach:
-
 1. Currently, this approach does not support Static Site Generation (SSG). The `render()` method used in the a Next custom server will not properly pass the `query` argument to `getStaticProps`, which is needed to properly pass the `seedQuery`
 2. A Next.js custom server is needed for this to work. This means you can not deploy to Vercel, Netlify. However, you can leverage a provider like [WP Engine Atlas](https://wpengine.com/atlas), which operates as a node server, not serverless functions like Vercel, Netlify, etc.
