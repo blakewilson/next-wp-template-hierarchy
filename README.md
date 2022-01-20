@@ -2,6 +2,13 @@
 
 This Next.js app replicates the [WordPress Template Hierarchy](https://developer.wordpress.org/themes/basics/template-hierarchy/#visual-overview), but in JavaScript!
 
+## Requirements
+
+WordPress Plugins:
+
+- [WPGraphQL](https://wordpress.org/plugins/wp-graphql/): Transforms WordPress data into a GraphQL schema.
+- [FaustWP](https://wordpress.org/plugins/faustwp/): Used to decipher which templates a `nodeByUri` query returns.
+
 ## Getting Started
 
 Install dependencies:
