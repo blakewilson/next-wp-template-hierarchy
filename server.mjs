@@ -20,7 +20,7 @@ app.prepare().then(() => {
     }
 
     /**
-     * Generate a seed query to determine basic info about the URI and route
+     * Generate a seed query to determine basic info about the WordPress URI and route
      * from there. Based on Jason Bahl's Seed Query Template Hierarchy Example
      *
      * @link https://github.com/jasonbahl/headless-wp-template-hierarchy/blob/master/express/app.js#L7
@@ -77,11 +77,15 @@ app.prepare().then(() => {
 
     /**
      * Render the request with the template determined above. Typically, this
-     * third argument would be the appropriate "page" to render in Next.
+     * third argument would be the appropriate "page" to render in Next.js.
      * We instead do our own routing, and disable Next's routing in next.config.js.
      *
      * Additionally, we merge in the seedQuery data from the nodeByUri response
      * to the query object so we can access it in getServerSideProps.
+     * Unfortunately, this is not possible in getStaticProps, as query can not be
+     * passed as expected.
+     *
+     * @link https://github.com/vercel/next.js/issues/10071
      */
     app.render(req, res, `/${template}`, {
       ...query,
