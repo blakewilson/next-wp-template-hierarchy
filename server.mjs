@@ -52,6 +52,23 @@ app.prepare().then(() => {
      */
     const template = getTemplate(templates);
 
+    /**
+     * If there is no template found, either throw an error if on dev, or
+     * render a 404 if on prod.
+     */
+    if (template === null) {
+      if (dev) {
+        throw new Error(
+          `No template found for "${pathname}". Possible templates are: ${templates
+            .map((template) => `pages/${template}.js`)
+            .join(", ")}`
+        );
+      } else {
+        app.render(req, res, "/404", query);
+        return;
+      }
+    }
+
     console.log(
       `Possible templates for "${pathname}": `,
       templates.map((template) => `pages/${template}.js`)
