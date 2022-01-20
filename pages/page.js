@@ -1,9 +1,13 @@
 import { gql } from "@apollo/client";
 import client from "../client.mjs";
+import Head from "next/head";
 
 export default function Page({ data: { title, content } }) {
   return (
     <>
+      <Head>
+        <title>{title}</title>
+      </Head>
       <h1>{title}</h1>
       <div dangerouslySetInnerHTML={{ __html: content }} />
     </>

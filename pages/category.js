@@ -1,6 +1,7 @@
 import { gql } from "@apollo/client";
 import client from "../client.mjs";
 import Link from "next/link";
+import Head from "next/head";
 
 export default function Category({
   data: {
@@ -8,9 +9,12 @@ export default function Category({
     posts,
   },
 }) {
-  console.log(posts);
   return (
     <>
+      <Head>
+        <title>Posts from {name} category</title>
+      </Head>
+
       <h1>Category: {name}</h1>
 
       <h2>Posts</h2>
