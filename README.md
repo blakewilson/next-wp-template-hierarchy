@@ -17,7 +17,7 @@ Install dependencies:
 npm install
 ```
 
-Set your WordPress GraphQL endpoint:
+To set the WordPress GraphQL endpoint (Otherwise, the default will be used):
 
 ```bash
 export NEXT_PUBLIC_GRAPHQL_ENDPOINT=https://your-wp-instance.com/graphql
@@ -39,5 +39,5 @@ This example project works by first disabling the native file based routing in N
 
 ## Caveats
 
-1. Currently, this approach does not support Static Site Generation (SSG). The `render()` method used in the a Next custom server will not properly pass the `query` argument to `getStaticProps`, which is needed to properly pass the `seedQuery`
+1. Currently, this approach does not support Static Site Generation (SSG). [The `render()` method used in the a Next custom server will not properly pass the `query` argument to `getStaticProps`](https://github.com/vercel/next.js/issues/10071), which is needed to properly pass the `seedQuery`
 2. A Next.js custom server is needed for this to work. This means you can not deploy to Vercel, Netlify. However, you can leverage a provider like [WP Engine Atlas](https://wpengine.com/atlas), which operates as a node server, not serverless functions like Vercel, Netlify, etc.
