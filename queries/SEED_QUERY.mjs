@@ -14,6 +14,10 @@ export const SEED_QUERY = gql`
     slug
   }
 
+  fragment Category on Category {
+    slug
+  }
+
   fragment ContentNode on ContentNode {
     slug
   }
@@ -27,6 +31,7 @@ export const SEED_QUERY = gql`
       ...DatabaseIdentifier
       ...TermNode
       ...ContentNode
+      ...Category
     }
   }
 `;
