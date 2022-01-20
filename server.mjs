@@ -1,8 +1,9 @@
 import { createServer } from "http";
 import { parse } from "url";
 import next from "next";
-import { generateSeedQueryUrl } from "./lib/generateSeedQueryUrl.mjs";
 import { getTemplate } from "./lib/getTemplate.mjs";
+import { client, gql } from "./client.mjs";
+import { SEED_QUERY } from "./queries/SEED_QUERY.mjs";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -20,16 +21,17 @@ app.prepare().then(() => {
     }
 
     /**
-     * Generate a seed query to determine basic info about the WordPress URI and route
-     * from there. Based on Jason Bahl's Seed Query Template Hierarchy Example
-     *
-     * @link https://github.com/jasonbahl/headless-wp-template-hierarchy/blob/master/express/app.js#L7
+     * Use a seed query to determine basic info about the WordPress URI and make
+     * routing decisions from there.
      */
-    const seedQueryUrl = generateSeedQueryUrl(pathname);
-    const nodeByUriRes = await fetch(seedQueryUrl);
-    const json = await nodeByUriRes.json();
+    const { data } = await client.query({
+      query: SEED_QUERY,
+      variables: {
+        pathname,
+      },
+    });
 
-    const { nodeByUri } = json?.data;
+    const { nodeByUri } = data;
 
     /**
      * If the nodeByUri response was null, a node does not exist for the given
@@ -89,7 +91,7 @@ app.prepare().then(() => {
      */
     app.render(req, res, `/${template}`, {
       ...query,
-      seedQuery: json?.data?.nodeByUri,
+      seedQuery: nodeByUri,
     });
   }).listen(3000, (err) => {
     if (err) throw err;

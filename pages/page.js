@@ -1,5 +1,4 @@
-import { gql } from "@apollo/client";
-import client from "../client.mjs";
+import { client, gql } from "../client.mjs";
 import Head from "next/head";
 
 export default function Page({ data: { title, content } }) {
