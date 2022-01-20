@@ -22,13 +22,13 @@ Run the dev server:
 npm run dev
 ```
 
-Now, navigate to any WordPress route, and in your server's `stdout`, you can see the possible templates to create! For example, "single" is a possible template for posts. In that case you would create `pages/single.js`, and all posts will be routed to that page. However, you can also get more granular. For example, if a post is named "Sample Page" with a slug of "sample-page", you could create `pages/single-sample-page.js` and the post with that slug will be routed to that page.
+Now, navigate to any route (i.e. `http://localhost:3000/sample-page`), and in your server's `stdout`, you can see the possible templates to create! For example, "single" is a possible template for posts. In that case you would create `pages/single.js`, and all posts will be routed to that page. Additionally, you can also get more granular. For example, if a post is named "Hello World" with a slug of "hello-world", you could create `pages/single-sample-page.js` and the post with that slug will be routed to that page.
 
 [Check out the WordPress template hierarchy for more info.](https://developer.wordpress.org/themes/basics/template-hierarchy/#visual-overview)
 
 ## How it works
 
-This example project works by first disabling the native file based routing in Next.js, and then using a Next.js custom server to handle the routing ourselves. From there, we make a `nodeByUri` request to the WordPress GraphQL endpoint to get some basic info about the route: the `id`, `slug`, `templates`, etc. From there, we determine what templates are available from the `pages` directory, and render the most specific template available.
+This example project works by first disabling the native file based routing in Next.js, and then using a Next.js custom server to handle the routing ourselves. From there, we make a `nodeByUri` GraphQL request based on the server's `Request` url to get some basic info about the route: the `id`, `slug`, `templates`, etc. From there, we determine what templates are available from the `pages` directory, and render the most specific template available.
 
 ## Caveats
 
