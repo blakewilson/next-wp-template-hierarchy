@@ -2,8 +2,7 @@ import { createServer } from "http";
 import { parse } from "url";
 import next from "next";
 import { getTemplate } from "./lib/getTemplate.mjs";
-import { client, gql } from "./client.mjs";
-import { SEED_QUERY } from "./queries/SEED_QUERY.mjs";
+import { getSeedQueryForUri } from "./lib/seedQueryCache.mjs";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -24,14 +23,7 @@ app.prepare().then(() => {
      * Use a seed query to determine basic info about the WordPress URI and make
      * routing decisions from there.
      */
-    const { data } = await client.query({
-      query: SEED_QUERY,
-      variables: {
-        pathname,
-      },
-    });
-
-    const { nodeByUri } = data;
+    const { nodeByUri } = await getSeedQueryForUri(pathname);
 
     /**
      * If the nodeByUri response was null, a node does not exist for the given
@@ -72,10 +64,10 @@ app.prepare().then(() => {
     }
 
     console.log(
-      `Possible templates for "${pathname}": `,
+      `> Possible templates for "${pathname}": `,
       templates.map((template) => `pages/${template}.js`)
     );
-    console.log(`Using template "pages/${template}.js"`);
+    console.log(`> Using template "pages/${template}.js"`);
 
     /**
      * Render the request with the template determined above. Typically, this
