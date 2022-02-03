@@ -1,6 +1,7 @@
 import { client, gql } from "../client.mjs";
 import Link from "next/link";
 import Head from "next/head";
+import { getSeedQueryFromContext } from "../lib/getSeedQueryFromContext.mjs";
 
 export default function Category({
   data: {
@@ -31,7 +32,7 @@ export default function Category({
 }
 
 export async function getServerSideProps(context) {
-  const seedQuery = context.query.seedQuery;
+  const seedQuery = getSeedQueryFromContext(context);
 
   /**
    * Avoiding using nodeByUri here as the category uri returned includes the
