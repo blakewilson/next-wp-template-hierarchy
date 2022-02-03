@@ -1,7 +1,8 @@
 import { createServer } from "http";
-import { parse } from "url";
 import next from "next";
+import { parse } from "url";
 import { getTemplate } from "./lib/getTemplate.mjs";
+import { setSeedQueryOnReq } from "./lib/modifySeedQueryOnReq.mjs";
 import { getSeedQueryForUri } from "./lib/seedQueryCache.mjs";
 
 const dev = process.env.NODE_ENV !== "production";
@@ -70,21 +71,19 @@ app.prepare().then(() => {
     console.log(`> Using template "pages/${template}.js"`);
 
     /**
+     * Set the seed query on the request object so we can access it
+     * in getServerSideProps with getSeedQueryFromContext.
+     */
+    req = setSeedQueryOnReq(req, nodeByUri);
+
+    /**
      * Render the request with the template determined above. Typically, this
      * third argument would be the appropriate "page" to render in Next.js.
      * We instead do our own routing, and disable Next's routing in next.config.js.
      *
-     * Additionally, we merge in the seedQuery data from the nodeByUri response
-     * to the query object so we can access it in getServerSideProps.
-     * Unfortunately, this is not possible in getStaticProps, as query can not be
-     * passed as expected.
-     *
      * @link https://github.com/vercel/next.js/issues/10071
      */
-    app.render(req, res, `/${template}`, {
-      ...query,
-      seedQuery: nodeByUri,
-    });
+    app.render(req, res, `/${template}`, query);
   }).listen(3000, (err) => {
     if (err) throw err;
     console.log("> Ready on http://localhost:3000");

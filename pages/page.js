@@ -1,5 +1,6 @@
 import { client, gql } from "../client.mjs";
 import Head from "next/head";
+import { getSeedQueryFromContext } from "../lib/getSeedQueryFromContext.mjs";
 
 export default function Page({ data: { title, content } }) {
   return (
@@ -14,7 +15,7 @@ export default function Page({ data: { title, content } }) {
 }
 
 export async function getServerSideProps(context) {
-  const seedQuery = context.query.seedQuery;
+  const seedQuery = getSeedQueryFromContext(context);
 
   const { data } = await client.query({
     query: gql`
